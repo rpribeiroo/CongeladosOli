@@ -1410,6 +1410,184 @@
       background: var(--purple-bright);
     }
 
+
+    /* ===== CHECKOUT DE ENTREGA ===== */
+    .checkout-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2300;
+      background: rgba(10, 4, 20, 0.66);
+      backdrop-filter: blur(9px);
+      -webkit-backdrop-filter: blur(9px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .checkout-overlay.open { opacity: 1; pointer-events: auto; }
+    .checkout-panel {
+      width: min(100%, 620px);
+      max-height: calc(100vh - 36px);
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: 0 28px 90px rgba(0,0,0,0.38);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(18px) scale(0.98);
+      opacity: 0;
+      transition: all 0.25s ease;
+    }
+    .checkout-overlay.open .checkout-panel {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    .checkout-header {
+      padding: 22px 22px 18px;
+      background: linear-gradient(135deg, var(--purple-deep), var(--purple-bright));
+      color: #fff;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .checkout-title { display: flex; flex-direction: column; gap: 4px; }
+    .checkout-title strong { font-size: 22px; line-height: 1.05; }
+    .checkout-title span { font-size: 13px; color: rgba(255,255,255,0.74); line-height: 1.45; }
+    .checkout-close {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .checkout-close:hover { background: rgba(255,255,255,0.20); transform: rotate(90deg); }
+    .checkout-close svg { width: 20px; height: 20px; }
+    .checkout-form {
+      overflow: auto;
+      background: #fbfaff;
+      padding: 18px;
+    }
+    .checkout-fields {
+      display: grid;
+      grid-template-columns: 1fr 0.55fr;
+      gap: 12px;
+    }
+    .checkout-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .checkout-field.full { grid-column: 1 / -1; }
+    .checkout-field label {
+      font-size: 12px;
+      color: var(--purple-deep);
+      font-weight: 800;
+      letter-spacing: -0.1px;
+    }
+    .checkout-field label small {
+      color: #9c8baa;
+      font-weight: 600;
+    }
+    .checkout-field input,
+    .checkout-field textarea {
+      width: 100%;
+      border: 1px solid rgba(43,10,77,0.14);
+      background: #fff;
+      color: var(--text-dark);
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.18s ease;
+      box-shadow: 0 3px 12px rgba(43,10,77,0.04);
+    }
+    .checkout-field textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+    .checkout-field input:focus,
+    .checkout-field textarea:focus {
+      border-color: var(--purple-bright);
+      box-shadow: 0 0 0 4px rgba(94,35,157,0.10);
+    }
+    .checkout-error {
+      display: none;
+      margin-top: 12px;
+      border-radius: 14px;
+      background: #fff1f1;
+      color: #b42323;
+      border: 1px solid rgba(180,35,35,0.12);
+      padding: 11px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+    .checkout-error.visible { display: block; }
+    .checkout-footer {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 10px;
+      padding: 16px 18px 18px;
+      background: #fff;
+      border-top: 1px solid rgba(43,10,77,0.08);
+      box-shadow: 0 -8px 24px rgba(43,10,77,0.06);
+    }
+    .checkout-cancel-btn,
+    .checkout-submit-btn {
+      border: 0;
+      border-radius: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 13px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .checkout-cancel-btn {
+      background: #f2eef7;
+      color: #6e5a7e;
+    }
+    .checkout-cancel-btn:hover { background: #e8dff2; }
+    .checkout-submit-btn {
+      background: var(--green-wa);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.25);
+    }
+    .checkout-submit-btn:hover { background: var(--green-wa-dark); transform: translateY(-1px); }
+
+    @media (max-width: 768px) {
+      .checkout-overlay {
+        padding: 0;
+        align-items: flex-end;
+      }
+      .checkout-panel {
+        width: 100%;
+        max-height: 94vh;
+        border-radius: 26px 26px 0 0;
+      }
+      .checkout-header { padding: 20px 18px 16px; }
+      .checkout-title strong { font-size: 20px; }
+      .checkout-title span { font-size: 12px; }
+      .checkout-fields { grid-template-columns: 1fr; }
+      .checkout-form { padding: 16px; }
+      .checkout-footer {
+        grid-template-columns: 1fr;
+        padding: 14px 16px 16px;
+      }
+    }
+
     @media (max-width: 768px) {
       .btn-cart-header { display: none; }
       .cart-floating-btn {
@@ -1903,10 +2081,71 @@
       </div>
       <div class="cart-actions">
         <button type="button" class="cart-clear-btn" id="cartClearBtn" onclick="clearCart()">Limpar</button>
-        <button type="button" class="cart-checkout-btn" id="cartCheckoutBtn" onclick="checkoutWhatsApp()">Finalizar pelo WhatsApp</button>
+        <button type="button" class="cart-checkout-btn" id="cartCheckoutBtn" onclick="openCheckoutModal()">Finalizar pedido pelo WhatsApp</button>
       </div>
     </div>
   </aside>
+</div>
+
+<!-- Modal de Checkout / Dados de Entrega -->
+<div class="checkout-overlay" id="checkoutOverlay" onclick="handleCheckoutOverlayClick(event)" aria-hidden="true">
+  <section class="checkout-panel" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <div class="checkout-header">
+      <div class="checkout-title">
+        <strong id="checkoutTitle">Dados de entrega</strong>
+        <span>Preencha o endereço para enviar o pedido completo pelo WhatsApp.</span>
+      </div>
+      <button type="button" class="checkout-close" onclick="closeCheckoutModal()" aria-label="Fechar checkout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <form class="checkout-form" id="checkoutForm" onsubmit="submitCheckoutForm(event)" novalidate>
+      <div class="checkout-fields">
+        <div class="checkout-field full">
+          <label for="checkoutCustomerName">Nome do cliente</label>
+          <input type="text" id="checkoutCustomerName" autocomplete="name" placeholder="Ex.: Ronaldo Ribeiro" />
+        </div>
+
+        <div class="checkout-field">
+          <label for="checkoutAddress">Endereço completo</label>
+          <input type="text" id="checkoutAddress" autocomplete="street-address" placeholder="Rua, avenida, condomínio..." />
+        </div>
+
+        <div class="checkout-field">
+          <label for="checkoutNumber">Número</label>
+          <input type="text" id="checkoutNumber" autocomplete="address-line2" placeholder="Ex.: 123" />
+        </div>
+
+        <div class="checkout-field full">
+          <label for="checkoutComplement">Complemento <small>(opcional)</small></label>
+          <input type="text" id="checkoutComplement" placeholder="Apto, bloco, casa, referência..." />
+        </div>
+
+        <div class="checkout-field">
+          <label for="checkoutNeighborhood">Bairro</label>
+          <input type="text" id="checkoutNeighborhood" autocomplete="address-level3" placeholder="Ex.: Alphaville" />
+        </div>
+
+        <div class="checkout-field">
+          <label for="checkoutCity">Cidade</label>
+          <input type="text" id="checkoutCity" autocomplete="address-level2" placeholder="Ex.: Barueri" />
+        </div>
+
+        <div class="checkout-field full">
+          <label for="checkoutObservation">Observação do pedido <small>(opcional)</small></label>
+          <textarea id="checkoutObservation" placeholder="Ex.: entregar após 18h, chamar no portão, forma de pagamento..."></textarea>
+        </div>
+      </div>
+
+      <div class="checkout-error" id="checkoutError" role="alert"></div>
+    </form>
+
+    <div class="checkout-footer">
+      <button type="button" class="checkout-cancel-btn" onclick="closeCheckoutModal()">Cancelar</button>
+      <button type="submit" form="checkoutForm" class="checkout-submit-btn">Enviar pedido pelo WhatsApp</button>
+    </div>
+  </section>
 </div>
 
 <script>
@@ -1918,6 +2157,7 @@ const WHATSAPP_NUMBER = "5511982425827";
 
 const DEFAULT_PRODUCT_UNIT = "1kg";
 const CART_STORAGE_KEY = "congelados_oli_cart";
+const CUSTOMER_STORAGE_KEY = "congelados_oli_customer";
 
 // Use este objeto para ajustar produtos sem peso/preço claro, sem mexer na estrutura visual.
 // Você pode preencher por nome do produto ou pela chave da seção + índice, exemplo:
@@ -2449,32 +2689,197 @@ function handleCartOverlayClick(event) {
 }
 
 document.addEventListener("keydown", event => {
-  if (event.key === "Escape") closeCart();
+  if (event.key !== "Escape") return;
+  const checkoutOverlay = document.getElementById("checkoutOverlay");
+  if (checkoutOverlay && checkoutOverlay.classList.contains("open")) {
+    closeCheckoutModal();
+    return;
+  }
+  closeCart();
 });
 
 function checkoutWhatsApp() {
+  openCheckoutModal();
+}
+
+function openCheckoutModal() {
   if (!cart.length) {
     alert("Seu carrinho está vazio.");
     return;
   }
 
+  renderCart();
+  fillCheckoutFormFromStorage();
+  clearCheckoutError();
+
+  const overlay = document.getElementById("checkoutOverlay");
+  if (!overlay) return;
+
+  overlay.classList.add("open");
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+
+  setTimeout(() => {
+    const firstInput = document.getElementById("checkoutCustomerName");
+    if (firstInput) firstInput.focus();
+  }, 120);
+}
+
+function closeCheckoutModal() {
+  const overlay = document.getElementById("checkoutOverlay");
+  if (!overlay) return;
+
+  overlay.classList.remove("open");
+  overlay.setAttribute("aria-hidden", "true");
+  clearCheckoutError();
+
+  const cartOverlay = document.getElementById("cartOverlay");
+  const cartIsOpen = cartOverlay && cartOverlay.classList.contains("open");
+  if (!cartIsOpen) document.body.style.overflow = "";
+}
+
+function handleCheckoutOverlayClick(event) {
+  if (event.target && event.target.id === "checkoutOverlay") closeCheckoutModal();
+}
+
+function getCheckoutField(id) {
+  const element = document.getElementById(id);
+  return element ? element.value.trim() : "";
+}
+
+function getCheckoutDataFromForm() {
+  return {
+    nome: getCheckoutField("checkoutCustomerName"),
+    endereco: getCheckoutField("checkoutAddress"),
+    numero: getCheckoutField("checkoutNumber"),
+    complemento: getCheckoutField("checkoutComplement"),
+    bairro: getCheckoutField("checkoutNeighborhood"),
+    cidade: getCheckoutField("checkoutCity"),
+    observacao: getCheckoutField("checkoutObservation"),
+  };
+}
+
+function fillCheckoutFormFromStorage() {
+  let data = {};
+  try {
+    data = JSON.parse(localStorage.getItem(CUSTOMER_STORAGE_KEY) || "{}");
+  } catch (error) {
+    data = {};
+  }
+
+  const fields = {
+    checkoutCustomerName: data.nome || "",
+    checkoutAddress: data.endereco || "",
+    checkoutNumber: data.numero || "",
+    checkoutComplement: data.complemento || "",
+    checkoutNeighborhood: data.bairro || "",
+    checkoutCity: data.cidade || "",
+    checkoutObservation: data.observacao || "",
+  };
+
+  Object.entries(fields).forEach(([id, value]) => {
+    const element = document.getElementById(id);
+    if (element) element.value = value;
+  });
+}
+
+function saveCheckoutData(data) {
+  localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(data));
+}
+
+function showCheckoutError(message, fieldId = "") {
+  const errorBox = document.getElementById("checkoutError");
+  if (errorBox) {
+    errorBox.textContent = message;
+    errorBox.classList.add("visible");
+  }
+  if (fieldId) {
+    const field = document.getElementById(fieldId);
+    if (field) field.focus();
+  }
+}
+
+function clearCheckoutError() {
+  const errorBox = document.getElementById("checkoutError");
+  if (!errorBox) return;
+  errorBox.textContent = "";
+  errorBox.classList.remove("visible");
+}
+
+function validateCheckoutData(data) {
+  const requiredFields = [
+    { key: "nome", label: "nome do cliente", fieldId: "checkoutCustomerName" },
+    { key: "endereco", label: "endereço completo", fieldId: "checkoutAddress" },
+    { key: "numero", label: "número", fieldId: "checkoutNumber" },
+    { key: "bairro", label: "bairro", fieldId: "checkoutNeighborhood" },
+    { key: "cidade", label: "cidade", fieldId: "checkoutCity" },
+  ];
+
+  return requiredFields.find(field => !data[field.key]);
+}
+
+function submitCheckoutForm(event) {
+  event.preventDefault();
+
+  if (!cart.length) {
+    alert("Seu carrinho está vazio.");
+    closeCheckoutModal();
+    return;
+  }
+
+  const data = getCheckoutDataFromForm();
+  const missingField = validateCheckoutData(data);
+
+  if (missingField) {
+    showCheckoutError(`Preencha o campo ${missingField.label} antes de continuar.`, missingField.fieldId);
+    return;
+  }
+
+  clearCheckoutError();
+  saveCheckoutData(data);
+  sendOrderToWhatsApp(data);
+}
+
+function sendOrderToWhatsApp(customerData) {
   const totals = getCartTotals();
-  const productsText = cart.map(item => {
+  const productsText = cart.map((item, index) => {
     const subtotal = item.precoValor * item.quantidade;
     const pesoTotal = item.pesoKg * item.quantidade;
     return [
-      `Produto: ${item.nome}`,
-      `Quantidade: ${item.quantidade}`,
-      `Peso unitário: ${formatWeight(item.pesoKg)}`,
-      `Peso total: ${formatWeight(pesoTotal)}`,
-      `Valor unitário: ${formatCurrency(item.precoValor)}`,
-      `Subtotal: ${formatCurrency(subtotal)}`,
+      `${index + 1}. Produto: ${item.nome}`,
+      `   Quantidade: ${item.quantidade}`,
+      `   Peso unitário: ${formatWeight(item.pesoKg)}`,
+      `   Peso total: ${formatWeight(pesoTotal)}`,
+      `   Valor unitário: ${formatCurrency(item.precoValor)}`,
+      `   Subtotal: ${formatCurrency(subtotal)}`,
     ].join("\n");
   }).join("\n\n");
 
   const pesoResumo = `${formatWeight(totals.pesoTotal)}${totals.hasUnknownWeight ? " + item sem peso informado" : ""}`;
+  const complemento = customerData.complemento || "Não informado";
+  const observacao = customerData.observacao || "Não informado";
 
-  const message = `Olá! Gostaria de fazer um pedido:\n\n${productsText}\n\nResumo do pedido:\nQuantidade total de itens: ${totals.quantidadeTotal}\nPeso total: ${pesoResumo}\nValor total: ${formatCurrency(totals.valorTotal)}`;
+  const message = [
+    "Olá! Gostaria de fazer um pedido:",
+    "",
+    "Dados do cliente:",
+    `Nome: ${customerData.nome}`,
+    `Endereço: ${customerData.endereco}, nº ${customerData.numero}`,
+    `Complemento: ${complemento}`,
+    `Bairro: ${customerData.bairro}`,
+    `Cidade: ${customerData.cidade}`,
+    `Observação: ${observacao}`,
+    "",
+    "Itens do pedido:",
+    "",
+    productsText,
+    "",
+    "Resumo do pedido:",
+    `Quantidade total de itens: ${totals.quantidadeTotal}`,
+    `Peso total: ${pesoResumo}`,
+    `Valor total: ${formatCurrency(totals.valorTotal)}`,
+  ].join("\n");
+
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
 }
