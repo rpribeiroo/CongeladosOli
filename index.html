@@ -868,6 +868,7 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1100px) {
+      .btn-cart-header { display: none; }
       .product-grid { grid-template-columns: repeat(3, 1fr); }
       .footer-top { grid-template-columns: 1fr 1fr; }
     }
@@ -1067,6 +1068,376 @@
       .footer-brand-logo .brand-subtitle { display: block; }
     }
 
+
+    /* ===== CARRINHO DE COMPRAS ===== */
+    .btn-cart-header {
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.16);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 15px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .btn-cart-header:hover {
+      background: rgba(255,255,255,0.18);
+      transform: translateY(-1px);
+    }
+    .btn-cart-header svg { width: 18px; height: 18px; }
+    .cart-count-badge {
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: var(--green-wa);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      box-shadow: 0 4px 12px rgba(37,211,102,0.35);
+    }
+    .cart-floating-btn {
+      position: fixed;
+      right: 28px;
+      bottom: 88px;
+      z-index: 1001;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--purple-deep), var(--purple-bright));
+      color: #fff;
+      box-shadow: 0 12px 34px rgba(43,10,77,0.36);
+      padding: 13px 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      transition: all 0.25s;
+    }
+    .cart-floating-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 42px rgba(43,10,77,0.45); }
+    .cart-floating-btn svg { width: 20px; height: 20px; }
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(10, 4, 20, 0.62);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 18px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: stretch;
+    }
+    .cart-overlay.open { opacity: 1; pointer-events: auto; }
+    .cart-panel {
+      width: min(100%, 520px);
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(24px);
+      opacity: 0;
+      transition: all 0.25s ease;
+      max-height: calc(100vh - 36px);
+    }
+    .cart-overlay.open .cart-panel { transform: translateX(0); opacity: 1; }
+    .cart-header {
+      padding: 22px 22px 18px;
+      background: linear-gradient(135deg, var(--purple-deep), var(--purple-bright));
+      color: #fff;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .cart-title { display: flex; flex-direction: column; gap: 3px; }
+    .cart-title strong { font-size: 22px; line-height: 1.05; }
+    .cart-title span { font-size: 13px; color: rgba(255,255,255,0.72); }
+    .cart-close {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .cart-close:hover { background: rgba(255,255,255,0.20); transform: rotate(90deg); }
+    .cart-close svg { width: 20px; height: 20px; }
+    .cart-body {
+      padding: 18px;
+      overflow: auto;
+      flex: 1;
+      background: #fbfaff;
+    }
+    .cart-empty {
+      min-height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #776885;
+      flex-direction: column;
+      gap: 10px;
+      padding: 24px;
+    }
+    .cart-empty-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 22px;
+      background: rgba(94,35,157,0.10);
+      color: var(--purple-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-empty-icon svg { width: 30px; height: 30px; }
+    .cart-item {
+      background: #fff;
+      border: 1px solid rgba(43,10,77,0.08);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 4px 18px rgba(43,10,77,0.06);
+      margin-bottom: 12px;
+    }
+    .cart-item-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .cart-item-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.25;
+    }
+    .cart-item-category {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--purple-bright);
+      font-weight: 700;
+      margin-top: 4px;
+    }
+    .cart-remove {
+      border: 0;
+      background: #fff1f1;
+      color: #c73333;
+      border-radius: 10px;
+      padding: 7px 9px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .cart-item-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .cart-info-box {
+      background: #f7f2ff;
+      border-radius: 12px;
+      padding: 9px 10px;
+    }
+    .cart-info-box span {
+      display: block;
+      font-size: 10px;
+      color: #8b7b9d;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .cart-info-box strong {
+      display: block;
+      font-size: 13px;
+      color: var(--purple-deep);
+      font-weight: 800;
+    }
+    .cart-item-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid rgba(43,10,77,0.08);
+      padding-top: 12px;
+    }
+    .cart-qty-control {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      background: #f1e8ff;
+      padding: 4px;
+      gap: 6px;
+    }
+    .cart-qty-btn {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--purple-deep);
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(43,10,77,0.08);
+    }
+    .cart-qty-number {
+      min-width: 24px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--purple-deep);
+    }
+    .cart-subtotal {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .cart-subtotal span { font-size: 10px; color: #8b7b9d; font-weight: 600; }
+    .cart-subtotal strong { font-size: 17px; color: var(--purple-deep); font-weight: 900; }
+    .cart-footer {
+      padding: 16px 18px 18px;
+      background: #fff;
+      border-top: 1px solid rgba(43,10,77,0.08);
+      box-shadow: 0 -8px 24px rgba(43,10,77,0.06);
+    }
+    .cart-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .cart-summary-box {
+      background: #f8f4ff;
+      border-radius: 14px;
+      padding: 10px;
+      text-align: center;
+    }
+    .cart-summary-box span {
+      display: block;
+      color: #8b7b9d;
+      font-size: 10px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .cart-summary-box strong {
+      display: block;
+      color: var(--purple-deep);
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+    .cart-actions {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 10px;
+    }
+    .cart-clear-btn, .cart-checkout-btn {
+      border: 0;
+      border-radius: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 13px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cart-clear-btn {
+      background: #f2eef7;
+      color: #6e5a7e;
+    }
+    .cart-clear-btn:hover { background: #e8dff2; }
+    .cart-checkout-btn {
+      background: var(--green-wa);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.25);
+    }
+    .cart-checkout-btn:hover { background: var(--green-wa-dark); transform: translateY(-1px); }
+    .cart-checkout-btn:disabled, .cart-clear-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .btn-add-cart {
+      background: var(--green-wa);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 11px 16px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: all 0.2s;
+      font-family: 'Poppins', sans-serif;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-add-cart:hover { background: var(--green-wa-dark); transform: translateY(-1px); }
+    .btn-add-cart svg { width: 16px; height: 16px; }
+    .btn-add-cart.added {
+      background: var(--purple-bright);
+    }
+
+    @media (max-width: 768px) {
+      .btn-cart-header { display: none; }
+      .cart-floating-btn {
+        right: 16px;
+        bottom: 82px;
+        padding: 12px 14px;
+        font-size: 13px;
+      }
+      .cart-overlay { padding: 0; align-items: flex-end; }
+      .cart-panel {
+        width: 100%;
+        max-height: 92vh;
+        border-radius: 26px 26px 0 0;
+        transform: translateY(24px);
+      }
+      .cart-overlay.open .cart-panel { transform: translateY(0); }
+      .cart-header { padding: 20px 18px 16px; }
+      .cart-title strong { font-size: 20px; }
+      .cart-item-info { grid-template-columns: 1fr; }
+      .cart-summary { grid-template-columns: 1fr; }
+      .cart-actions { grid-template-columns: 1fr; }
+      .cart-item-bottom { align-items: stretch; flex-direction: column; }
+      .cart-subtotal { text-align: left; }
+    }
+    @media (max-width: 430px) {
+      .cart-floating-btn span.cart-floating-label { display: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -1106,6 +1477,12 @@
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.107.549 4.09 1.508 5.815L0 24l6.338-1.483A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.982-1.36l-.357-.213-3.762.881.897-3.676-.233-.377A9.836 9.836 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
     Fale no WhatsApp
   </a>
+
+  <button type="button" class="btn-cart-header" onclick="openCart()" aria-label="Abrir carrinho">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h8.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    Carrinho
+    <span class="cart-count-badge" data-cart-count>0</span>
+  </button>
   <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -1488,12 +1865,68 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
 
+
+<!-- Carrinho flutuante -->
+<button type="button" class="cart-floating-btn" onclick="openCart()" aria-label="Abrir carrinho de compras">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h8.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+  <span class="cart-floating-label">Carrinho</span>
+  <span class="cart-count-badge" data-cart-count>0</span>
+</button>
+
+<!-- Modal do Carrinho -->
+<div class="cart-overlay" id="cartOverlay" onclick="handleCartOverlayClick(event)" aria-hidden="true">
+  <aside class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="cart-header">
+      <div class="cart-title">
+        <strong id="cartTitle">Seu carrinho</strong>
+        <span>Revise os itens antes de enviar pelo WhatsApp.</span>
+      </div>
+      <button type="button" class="cart-close" onclick="closeCart()" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-summary">
+        <div class="cart-summary-box">
+          <span>Itens</span>
+          <strong id="cartSummaryItems">0</strong>
+        </div>
+        <div class="cart-summary-box">
+          <span>Peso total</span>
+          <strong id="cartSummaryWeight">0kg</strong>
+        </div>
+        <div class="cart-summary-box">
+          <span>Total</span>
+          <strong id="cartSummaryValue">R$ 0,00</strong>
+        </div>
+      </div>
+      <div class="cart-actions">
+        <button type="button" class="cart-clear-btn" id="cartClearBtn" onclick="clearCart()">Limpar</button>
+        <button type="button" class="cart-checkout-btn" id="cartCheckoutBtn" onclick="checkoutWhatsApp()">Finalizar pelo WhatsApp</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
 <script>
 /* ============================================================
    CONFIGURAÇÃO — Edite apenas estas listas para atualizar o site
    ============================================================ */
 
 const WHATSAPP_NUMBER = "5511982425827";
+
+const DEFAULT_PRODUCT_UNIT = "1kg";
+const CART_STORAGE_KEY = "congelados_oli_cart";
+
+// Use este objeto para ajustar produtos sem peso/preço claro, sem mexer na estrutura visual.
+// Você pode preencher por nome do produto ou pela chave da seção + índice, exemplo:
+// "Mandioca Moída Matheus": { unidade: "1kg", pesoKg: 1, preco: "R$ 10,00" }
+// "porcoes-21": { unidade: "1kg", pesoKg: 1 }
+const PRODUCT_META_OVERRIDES = {
+  "Mandioca Moída Matheus": { unidade: "não informado", pesoKg: 0 }
+};
+
 
 const POLPAS = [
   { nome: "Açaí", preco: "R$ 34,00", imagem: "", categoria: "Polpas de Frutas" },
@@ -1705,6 +2138,347 @@ function getProductImage(produto) {
   return FALLBACK_IMAGES[produto.categoria] || IMAGE_MAP["morango"] || "";
 }
 
+
+
+/* ============================================================
+   CARRINHO DE COMPRAS
+   ============================================================ */
+
+let cart = [];
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function getCatalogProducts() {
+  return [
+    ...POLPAS.map((produto, index) => ({ ...produto, __key: `polpas-${index}` })),
+    ...SALGADOS.map((produto, index) => ({ ...produto, __key: `salgados-${index}` })),
+    ...ACAI.map((produto, index) => ({ ...produto, __key: `acai-${index}` })),
+    ...PORCOES.map((produto, index) => ({ ...produto, __key: `porcoes-${index}` })),
+  ];
+}
+
+function getProductByKey(key) {
+  return getCatalogProducts().find(produto => produto.__key === key);
+}
+
+function getProductKeyByName(nome, sectionPrefix = "") {
+  const produto = getCatalogProducts().find(item => {
+    const sameName = item.nome.toLowerCase() === String(nome).toLowerCase();
+    const sameSection = sectionPrefix ? item.__key.startsWith(`${sectionPrefix}-`) : true;
+    return sameName && sameSection;
+  });
+  return produto ? produto.__key : "";
+}
+
+function getProductOverride(produto, key) {
+  return PRODUCT_META_OVERRIDES[key] || PRODUCT_META_OVERRIDES[produto.nome] || {};
+}
+
+function normalizeProduct(produto, key = "") {
+  const override = getProductOverride(produto, key);
+  const unidade = override.unidade || produto.unidade || produto.peso || DEFAULT_PRODUCT_UNIT;
+  const preco = override.preco || produto.preco || "R$ 0,00";
+  const pesoKg = typeof override.pesoKg === "number" ? override.pesoKg : parseWeightKg(unidade);
+  return {
+    ...produto,
+    ...override,
+    nome: produto.nome || "Produto sem nome",
+    categoria: produto.categoria || "Produto",
+    preco,
+    unidade,
+    pesoKg,
+    precoValor: parseBRL(preco),
+  };
+}
+
+function parseBRL(value) {
+  if (typeof value === "number") return value;
+  const clean = String(value || "")
+    .replace(/[^\d,.-]/g, "")
+    .replace(/\./g, "")
+    .replace(",", ".");
+  const parsed = Number.parseFloat(clean);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function parseWeightKg(unitText) {
+  const text = String(unitText || "").toLowerCase().replace(",", ".").trim();
+  if (!text || text.includes("não informado") || text.includes("nao informado")) return 0;
+
+  const match = text.match(/(\d+(?:\.\d+)?)/);
+  if (!match) return 0;
+
+  const number = Number.parseFloat(match[1]);
+  if (!Number.isFinite(number)) return 0;
+
+  // Importante: verificar KG antes de gramas.
+  // Antes, "1kg" estava caindo na regra de gramas porque termina com "g".
+  if (text.includes("kg") || text.includes("quilo") || text.includes("kilograma")) {
+    return number;
+  }
+
+  // Só converter para kg quando estiver claramente em gramas: 500g, 30 g, 500 gramas etc.
+  if (text.includes("grama") || /^\d+(?:\.\d+)?\s*g$/.test(text) || /\s\d+(?:\.\d+)?\s*g\s*$/.test(text)) {
+    return number / 1000;
+  }
+
+  // Sem unidade clara, assume kg para evitar transformar 1kg em 0,001kg.
+  return number;
+}
+
+function formatCurrency(value) {
+  return Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function formatWeight(value) {
+  const number = Number(value || 0);
+  if (!Number.isFinite(number) || number <= 0) return "não informado";
+  return `${number.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 3 })}kg`;
+}
+
+function getCartTotals() {
+  const quantidadeTotal = cart.reduce((sum, item) => sum + item.quantidade, 0);
+  const pesoTotal = cart.reduce((sum, item) => sum + ((Number(item.pesoKg) || 0) * item.quantidade), 0);
+  const valorTotal = cart.reduce((sum, item) => sum + ((Number(item.precoValor) || 0) * item.quantidade), 0);
+  const hasUnknownWeight = cart.some(item => !Number(item.pesoKg));
+  return { quantidadeTotal, pesoTotal, valorTotal, hasUnknownWeight };
+}
+
+function loadCart() {
+  try {
+    const saved = localStorage.getItem(CART_STORAGE_KEY);
+    cart = saved ? JSON.parse(saved) : [];
+    if (!Array.isArray(cart)) cart = [];
+
+    // Recalcula peso, unidade e preço a partir do catálogo atual.
+    // Isso corrige carrinhos antigos salvos no navegador com peso 0,001kg.
+    cart = cart
+      .filter(item => item && item.key && Number(item.quantidade) > 0)
+      .map(item => {
+        const catalogProduct = getProductByKey(item.key);
+        const quantidade = Math.max(1, Number.parseInt(item.quantidade, 10) || 1);
+
+        if (catalogProduct) {
+          const normalized = normalizeProduct(catalogProduct, item.key);
+          return {
+            key: item.key,
+            nome: normalized.nome,
+            categoria: normalized.categoria,
+            unidade: normalized.unidade,
+            pesoKg: normalized.pesoKg,
+            preco: normalized.preco,
+            precoValor: normalized.precoValor,
+            quantidade,
+          };
+        }
+
+        return {
+          ...item,
+          quantidade,
+          pesoKg: Number(item.pesoKg) || 0,
+          precoValor: Number(item.precoValor) || parseBRL(item.preco),
+        };
+      });
+
+    saveCart();
+  } catch (error) {
+    cart = [];
+  }
+}
+
+function saveCart() {
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+}
+
+function addToCartByKey(key, buttonElement = null) {
+  const produto = getProductByKey(key);
+  if (!produto) return;
+  const normalized = normalizeProduct(produto, key);
+  const existing = cart.find(item => item.key === key);
+
+  if (existing) {
+    existing.quantidade += 1;
+  } else {
+    cart.push({
+      key,
+      nome: normalized.nome,
+      categoria: normalized.categoria,
+      unidade: normalized.unidade,
+      pesoKg: normalized.pesoKg,
+      preco: normalized.preco,
+      precoValor: normalized.precoValor,
+      quantidade: 1,
+    });
+  }
+
+  saveCart();
+  renderCart();
+  pulseAddButton(buttonElement);
+}
+
+function pulseAddButton(buttonElement) {
+  if (!buttonElement) return;
+  const originalText = buttonElement.innerHTML;
+  buttonElement.classList.add("added");
+  buttonElement.innerHTML = "✓ Adicionado";
+  setTimeout(() => {
+    buttonElement.classList.remove("added");
+    buttonElement.innerHTML = originalText;
+  }, 900);
+}
+
+function changeCartQuantity(key, delta) {
+  const item = cart.find(produto => produto.key === key);
+  if (!item) return;
+  item.quantidade += delta;
+  if (item.quantidade <= 0) {
+    cart = cart.filter(produto => produto.key !== key);
+  }
+  saveCart();
+  renderCart();
+}
+
+function removeCartItem(key) {
+  cart = cart.filter(produto => produto.key !== key);
+  saveCart();
+  renderCart();
+}
+
+function clearCart() {
+  if (!cart.length) return;
+  if (!confirm("Deseja limpar o carrinho inteiro?")) return;
+  cart = [];
+  saveCart();
+  renderCart();
+}
+
+function renderCart() {
+  const cartItems = document.getElementById("cartItems");
+  const summaryItems = document.getElementById("cartSummaryItems");
+  const summaryWeight = document.getElementById("cartSummaryWeight");
+  const summaryValue = document.getElementById("cartSummaryValue");
+  const clearBtn = document.getElementById("cartClearBtn");
+  const checkoutBtn = document.getElementById("cartCheckoutBtn");
+  const totals = getCartTotals();
+
+  document.querySelectorAll("[data-cart-count]").forEach(el => {
+    el.textContent = totals.quantidadeTotal;
+  });
+
+  if (summaryItems) summaryItems.textContent = totals.quantidadeTotal;
+  if (summaryWeight) summaryWeight.textContent = `${formatWeight(totals.pesoTotal)}${totals.hasUnknownWeight ? " + pendente" : ""}`;
+  if (summaryValue) summaryValue.textContent = formatCurrency(totals.valorTotal);
+  if (clearBtn) clearBtn.disabled = cart.length === 0;
+  if (checkoutBtn) checkoutBtn.disabled = cart.length === 0;
+
+  if (!cartItems) return;
+
+  if (!cart.length) {
+    cartItems.innerHTML = `
+      <div class="cart-empty">
+        <div class="cart-empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h8.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </div>
+        <strong>Seu carrinho está vazio</strong>
+        <span>Adicione produtos e envie tudo de uma vez pelo WhatsApp.</span>
+      </div>
+    `;
+    return;
+  }
+
+  cartItems.innerHTML = cart.map(item => {
+    const subtotal = item.precoValor * item.quantidade;
+    const pesoTotal = item.pesoKg * item.quantidade;
+    return `
+      <div class="cart-item">
+        <div class="cart-item-top">
+          <div>
+            <div class="cart-item-name">${escapeHtml(item.nome)}</div>
+            <div class="cart-item-category">${escapeHtml(item.categoria || "Produto")}</div>
+          </div>
+          <button type="button" class="cart-remove" onclick="removeCartItem('${item.key}')">Remover</button>
+        </div>
+        <div class="cart-item-info">
+          <div class="cart-info-box"><span>Peso unitário</span><strong>${formatWeight(item.pesoKg)}</strong></div>
+          <div class="cart-info-box"><span>Peso total</span><strong>${formatWeight(pesoTotal)}</strong></div>
+          <div class="cart-info-box"><span>Valor unitário</span><strong>${formatCurrency(item.precoValor)}</strong></div>
+          <div class="cart-info-box"><span>Valor total</span><strong>${formatCurrency(subtotal)}</strong></div>
+        </div>
+        <div class="cart-item-bottom">
+          <div class="cart-qty-control" aria-label="Controle de quantidade">
+            <button type="button" class="cart-qty-btn" onclick="changeCartQuantity('${item.key}', -1)" aria-label="Diminuir quantidade">−</button>
+            <span class="cart-qty-number">${item.quantidade}</span>
+            <button type="button" class="cart-qty-btn" onclick="changeCartQuantity('${item.key}', 1)" aria-label="Aumentar quantidade">+</button>
+          </div>
+          <div class="cart-subtotal">
+            <span>Subtotal</span>
+            <strong>${formatCurrency(subtotal)}</strong>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function openCart() {
+  const overlay = document.getElementById("cartOverlay");
+  if (!overlay) return;
+  renderCart();
+  overlay.classList.add("open");
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeCart() {
+  const overlay = document.getElementById("cartOverlay");
+  if (!overlay) return;
+  overlay.classList.remove("open");
+  overlay.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+function handleCartOverlayClick(event) {
+  if (event.target && event.target.id === "cartOverlay") closeCart();
+}
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeCart();
+});
+
+function checkoutWhatsApp() {
+  if (!cart.length) {
+    alert("Seu carrinho está vazio.");
+    return;
+  }
+
+  const totals = getCartTotals();
+  const productsText = cart.map(item => {
+    const subtotal = item.precoValor * item.quantidade;
+    const pesoTotal = item.pesoKg * item.quantidade;
+    return [
+      `Produto: ${item.nome}`,
+      `Quantidade: ${item.quantidade}`,
+      `Peso unitário: ${formatWeight(item.pesoKg)}`,
+      `Peso total: ${formatWeight(pesoTotal)}`,
+      `Valor unitário: ${formatCurrency(item.precoValor)}`,
+      `Subtotal: ${formatCurrency(subtotal)}`,
+    ].join("\n");
+  }).join("\n\n");
+
+  const pesoResumo = `${formatWeight(totals.pesoTotal)}${totals.hasUnknownWeight ? " + item sem peso informado" : ""}`;
+
+  const message = `Olá! Gostaria de fazer um pedido:\n\n${productsText}\n\nResumo do pedido:\nQuantidade total de itens: ${totals.quantidadeTotal}\nPeso total: ${pesoResumo}\nValor total: ${formatCurrency(totals.valorTotal)}`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
+}
+
 /* ============================================================
    RENDERIZAÇÃO DE CARDS
    ============================================================ */
@@ -1714,26 +2488,31 @@ function buildWALink(nomeProduto) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
 }
 
-function renderCard(produto) {
-  const img = getProductImage(produto);
+function renderCard(produto, cartKey) {
+  const normalized = normalizeProduct(produto, cartKey);
+  const img = getProductImage(normalized);
+  const safeNome = escapeHtml(normalized.nome);
+  const safeCategoria = escapeHtml(normalized.categoria || "Produto");
+  const safePreco = escapeHtml(normalized.preco || "R$ 0,00");
+  const safeUnidade = escapeHtml(normalized.unidade || DEFAULT_PRODUCT_UNIT);
   return `
     <div class="product-card">
       <div class="card-image-wrap">
         <img
           src="${img}"
-          alt="${produto.nome}"
+          alt="${safeNome}"
           loading="lazy"
           onerror="this.src='https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&q=80&fit=crop'"
         />
       </div>
       <div class="card-body">
-        <span class="card-categoria">${produto.categoria}</span>
-        <span class="card-nome">${produto.nome}</span>
-        <span class="card-preco">${produto.preco} <small>/ ${produto.unidade || '1kg'}</small></span>
-        <a href="${buildWALink(produto.nome)}" target="_blank" class="btn-wa-card">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.107.549 4.09 1.508 5.815L0 24l6.338-1.483A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-4.982-1.36l-.357-.213-3.762.881.897-3.676-.233-.377A9.836 9.836 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
-          Pedir pelo WhatsApp
-        </a>
+        <span class="card-categoria">${safeCategoria}</span>
+        <span class="card-nome">${safeNome}</span>
+        <span class="card-preco">${safePreco} <small>/ ${safeUnidade}</small></span>
+        <button type="button" class="btn-add-cart" onclick="addToCartByKey('${cartKey}', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h8.72a2 2 0 0 0 2-1.61L23 6H6"/><path d="M12 10h6"/><path d="M15 7v6"/></svg>
+          Adicionar ao carrinho
+        </button>
       </div>
     </div>
   `;
@@ -1743,7 +2522,7 @@ function renderGrid(containerId, produtos, initialCount) {
   const grid = document.getElementById(containerId);
   if (!grid) return;
   grid.innerHTML = produtos.map((p, i) => {
-    const card = renderCard(p);
+    const card = renderCard(p, `${containerId.replace('grid-', '')}-${i}`);
     if (i >= initialCount) {
       return card.replace('<div class="product-card">', '<div class="product-card hidden">');
     }
@@ -1769,13 +2548,13 @@ function toggleVerMais(section, initialCount) {
     cards.forEach(c => c.classList.remove('hidden'));
     btn.classList.add('expanded');
     btn.querySelector('svg').style.transform = 'rotate(180deg)';
-    const texts = { polpas: 'Ver menos polpas', salgados: 'Ver menos salgados', acai: 'Ver menos produtos' };
+    const texts = { polpas: 'Ver menos polpas', salgados: 'Ver menos salgados', acai: 'Ver menos produtos', porcoes: 'Ver menos porções' };
     btn.childNodes[0].textContent = texts[section] + ' ';
   } else {
     cards.forEach((c, i) => { if (i >= initialCount) c.classList.add('hidden'); });
     btn.classList.remove('expanded');
     btn.querySelector('svg').style.transform = 'rotate(0deg)';
-    const texts = { polpas: 'Ver mais polpas', salgados: 'Ver mais salgados', acai: 'Ver mais produtos' };
+    const texts = { polpas: 'Ver mais polpas', salgados: 'Ver mais salgados', acai: 'Ver mais produtos', porcoes: 'Ver mais porções' };
     btn.childNodes[0].textContent = texts[section] + ' ';
     document.getElementById(section).scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -1833,18 +2612,20 @@ function renderHeroCarousel() {
 
   const produtos = getHeroCarouselProducts();
   track.innerHTML = produtos.map(produto => {
-    const img = getProductImage(produto);
+    const key = getProductKeyByName(produto.nome, "polpas");
+    const normalized = normalizeProduct(produto, key);
+    const img = getProductImage(normalized);
     return `
       <article class="hero-slide">
         <div class="hero-slide-image">
-          <img src="${img}" alt="${produto.nome}" loading="eager" />
+          <img src="${img}" alt="${escapeHtml(normalized.nome)}" loading="eager" />
         </div>
         <div class="hero-slide-info">
           <span class="hero-slide-kicker">Polpa de fruta</span>
-          <h3 class="hero-slide-title">${produto.nome}</h3>
+          <h3 class="hero-slide-title">${escapeHtml(normalized.nome)}</h3>
           <p class="hero-slide-desc">Produto congelado, prático e pronto para sucos, vitaminas e receitas.</p>
-          <div class="hero-slide-price">${produto.preco} <small>/ ${produto.unidade || '1kg'}</small></div>
-          <a href="${buildWALink(produto.nome)}" target="_blank" class="hero-slide-cta">Pedir pelo WhatsApp</a>
+          <div class="hero-slide-price">${escapeHtml(normalized.preco)} <small>/ ${escapeHtml(normalized.unidade || DEFAULT_PRODUCT_UNIT)}</small></div>
+          <button type="button" class="hero-slide-cta" onclick="addToCartByKey('${key}', this)">Adicionar ao carrinho</button>
         </div>
       </article>
     `;
@@ -1891,6 +2672,8 @@ function startHeroCarouselAutoPlay() {
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  loadCart();
+  renderCart();
   renderHeroCarousel();
   renderGrid('grid-polpas', POLPAS, 12);
   renderGrid('grid-salgados', SALGADOS, 12);
